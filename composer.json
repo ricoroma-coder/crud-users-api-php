@@ -18,7 +18,7 @@
       "App\\" : "app/"
     },
     "files" : [
-      "app/helpers/helper_routes.php"
+      "app/extra/route_functions.php"
     ]
   },
   "scripts": {
