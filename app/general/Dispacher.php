@@ -8,25 +8,22 @@ class Dispacher
     {
         if(is_callable($callback['callback']))
             return call_user_func_array($callback['callback'], array($params));
-        elseif (is_string($callback['callback']))
+        elseif (is_array($callback['callback']))
         {
-            if(!!strpos($callback['callback'], '@') !== false)
-            {
-                if(!empty($callback['namespace']))
-                    $namespace = $callback['namespace'];
+            if(!empty($callback['namespace']))
+                $namespace = $callback['namespace'];
 
-                $controller = $namespace.$callback['callback'][0];
-                $method = $callback['callback'][1];
+            $controller = $namespace.$callback['callback'][0];
+            $method = $callback['callback'][1];
 
-                $reflectionClass = new \ReflectionClass($controller);
+            $reflectionClass = new \ReflectionClass($controller);
 
-                if($reflectionClass->isInstantiable() && $reflectionClass->hasMethod($method))
-                    return call_user_func_array(array(new $controller, $method), array($params));
-                else
-                    throw new \Exception("Erro ao despachar: controller não pode ser instanciado, ou método não exite");
-            }
+            if($reflectionClass->isInstantiable() && $reflectionClass->hasMethod($method))
+                return call_user_func_array(array(new $controller, $method), array($params));
+            else
+                throw new \Exception("Internal error (controller cannot be found)");
         }
 
-        throw new \Exception("Erro ao despachar: método não implementado");
+        throw new \Exception("Internal error (unhandled method)");
     }
 }
