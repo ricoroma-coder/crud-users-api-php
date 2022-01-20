@@ -142,4 +142,53 @@ class RouteCollection
 
         return $pattern;
     }
+
+    public function where($request_type, $pattern)
+    {
+        switch($request_type)
+        {
+            case 'post':
+            case 'put':
+            case 'delete':
+                return $this->findPost($pattern);
+            break;
+            case 'get':
+                return $this->findGet($pattern);
+            break;
+            default:
+                throw new \Exception('Internal error (unhandled method)');
+            break;
+        }
+    }
+
+    protected function parseUri($uri)
+    {
+        return implode('/', array_filter(explode('/', $uri)));
+    }
+
+    protected function findPost($pattern_sent)
+    {
+        $pattern_sent = $this->parseUri($pattern_sent);
+
+        foreach($this->routes_post as $pattern => $callback)
+        {
+            if(preg_match($pattern, $pattern_sent, $pieces))
+                return (object) ['callback' => $callback, 'uri' => $pieces];
+        }
+
+        return false;
+    }
+
+    protected function findGet($pattern_sent)
+    {
+        $pattern_sent = $this->parseUri($pattern_sent);
+
+        foreach($this->routes_get as $pattern => $callback)
+        {
+            if(preg_match($pattern, $pattern_sent, $pieces))
+                return (object) ['callback' => $callback, 'uri' => $pieces];
+        }
+
+        return false;
+    }
 }

@@ -24,4 +24,28 @@ class Router
         $this->collection->add('post', $pattern, $callback);
         return $this;
     }
+
+    public function resolve($request)
+    {
+        $route = $this->find($request->method(), $request->uri());
+        if($route)
+            return $this->dispach($route, $request->all());
+
+        return $this->routeNotFound($request->uri());
+    }
+
+    public function find($request_type, $pattern)
+    {
+        return $this->collection->where($request_type, $pattern);
+    }
+
+    protected function dispach($route, $data = [])
+    {
+        return $this->dispacher->dispach($route->callback, $data);
+    }
+
+    protected function routeNotFound($data)
+    {
+        throw new \Exception("404 - Not found ({$data})");
+    }
 }

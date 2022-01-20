@@ -35,4 +35,9 @@ class Route
     {
         return self::post($pattern, $callback);
     }
+
+    public static function resolve($pattern)
+    {
+        return self::getRouter()->resolve($pattern);
+    }
 }
