@@ -36,4 +36,17 @@ class UserController
 
         response()->json(['success' => true, 'message' => 'User registered'], 201);
     }
+
+    public function find(Request $request)
+    {
+        UserRouteValidation::find($request);
+
+        $id = $request->params()['id'];
+        $obj = User::query()->find($id);
+
+        if (is_null($obj))
+            response()->json(['success' => false, 'message' => 'User not found'], 404);
+
+        response()->json($obj->getAttributes());
+    }
 }

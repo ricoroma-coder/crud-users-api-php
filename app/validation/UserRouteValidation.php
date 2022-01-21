@@ -41,4 +41,16 @@ class UserRouteValidation
                 response()->json(['success' => false, 'message' => 'Attribute name is already in use'], 409);
         }
     }
+
+    public static function find(Request $request)
+    {
+        if (substr(
+            $request->uri(), -1) == "0" ||
+            empty($request->params()) ||
+            !isset($request->params()['id']) ||
+            $request->params()['id'] <= 0 ||
+            !is_numeric($request->params()['id'])
+        )
+            response()->json(['success' => false, 'message' => 'Attribute id is invalid'], 400);
+    }
 }
