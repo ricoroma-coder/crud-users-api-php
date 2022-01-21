@@ -76,4 +76,28 @@ class UserRouteValidation
         if (!empty($message))
             response()->json(['success' => false, 'message' => $message], $status);
     }
+
+    public static function calcTotal(Request $request)
+    {
+        $route = $request->base();
+        $field = '';
+
+        switch ($route)
+        {
+            case '/api/find/totalByState':
+            case '/api/find/totalByState/data':
+                $field = 'state';
+            break;
+            case '/api/find/totalByCity':
+            case '/api/find/totalByCity/data':
+                $field = 'city';
+            break;
+            default:
+                response()->json(['success' => false, 'message' => 'No treatment for this route'], 500);
+            break;
+        }
+
+        if (!isset($request->all()->$field))
+            response()->json(['success' => false, 'message' => "Attribute {$field} is required"], 400);
+    }
 }

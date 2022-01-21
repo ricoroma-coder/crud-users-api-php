@@ -133,4 +133,42 @@ class UserController
 
         response()->json($response);
     }
+
+    public function calculateTotal(Request $request)
+    {
+        UserRouteValidation::calcTotal($request);
+
+        $route = $request->base();
+        $field = '';
+        $getData = false;
+
+        switch ($route)
+        {
+            case '/api/find/totalByState':
+            case '/api/find/totalByState/data':
+                $field = 'state';
+                if ($route == '/api/find/totalByState/data')
+                    $getData = true;
+            break;
+            case '/api/find/totalByCity':
+            case '/api/find/totalByCity/data':
+                $field = 'city';
+                if ($route == '/api/find/totalByCity/data')
+                    $getData = true;
+            break;
+            default:
+                response()->json(['success' => false, 'message' => 'No treatment for this route'], 500);
+                break;
+        }
+
+        $attributeValue = $request->all()->$field;
+
+        $users = User::all()->where($field, $attributeValue);
+
+        $response['total'] = count($users);
+        if ($getData)
+            $response['users'] = $users;
+
+        response()->json($response);
+    }
 }

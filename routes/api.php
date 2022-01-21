@@ -13,3 +13,8 @@ Route::get('/api/find/cities', ['UserController', 'specialFilter']);
 Route::get('/api/find/cities/{id}', ['UserController', 'specialFilter']);
 Route::get('/api/find/addresses', ['UserController', 'specialFilter']);
 Route::get('/api/find/addresses/{id}', ['UserController', 'specialFilter']);
+
+Route::post('/api/find/totalByState', ['UserController', 'calculateTotal']);
+Route::post('/api/find/totalByState/data', ['UserController', 'calculateTotal']);
+Route::post('/api/find/totalByCity', ['UserController', 'calculateTotal']);
+Route::post('/api/find/totalByCity/data', ['UserController', 'calculateTotal']);
