@@ -67,4 +67,43 @@ class UserController
 
         response()->json(['success' => true, 'message' => 'User deleted']);
     }
+
+    public function specialFilter(Request $request)
+    {
+        $route = $request->base();
+        $field = '';
+        $getAll = true;
+
+        switch ($route)
+        {
+            case '/api/find/states':
+                $field = 'state';
+            break;
+            case '/api/find/cities':
+                $field = 'city';
+            break;
+            case '/api/find/addresses':
+                $field = 'address';
+            break;
+            default:
+                response()->json(['success' => false, 'message' => 'No treatment for this route'], 500);
+            break;
+        }
+
+        $response = [];
+
+        if ($getAll)
+        {
+            foreach (User::all() as $user)
+            {
+                $response[] = [
+                    'id' => $user->getAttribute('id'),
+                    'name' => $user->getAttribute('name'),
+                    $field => $user->getAttribute($field),
+                ];
+            }
+        }
+
+        response()->json($response);
+    }
 }
