@@ -10,6 +10,7 @@ class Request
     protected $protocol;
     protected $data = [];
     protected $parameters = [];
+    protected $query = [];
 
     public function __construct($base = '')
     {
@@ -34,29 +35,19 @@ class Request
 
     protected function setData()
     {
-        try
+        if ($this->method == 'get')
+            $this->query = $_GET;
+        else
         {
-            $this->data = json_decode(file_get_contents('php://input'));
+            try
+            {
+                $this->data = json_decode(file_get_contents('php://input'));
+            }
+            catch (\Exception $e)
+            {
+                response()->json(['success' => false, 'message' => 'Input must be JSON'], 400);
+            }
         }
-        catch (\Exception $e)
-        {
-            response()->json(['success' => false, 'message' => 'Input must be JSON'], 400);
-        }
-
-        //henrique
-//        switch($this->method)
-//        {
-//            case 'post':
-//            case 'put':
-//            case 'delete':
-//                $this->data = $_POST;
-//            break;
-//            case 'get':
-//                $this->data = $_GET;
-//            break;
-//        }
-
-//        parse_str(file_get_contents('php://input'), $this->data);
     }
 
     public function newRequestByUri($base)
