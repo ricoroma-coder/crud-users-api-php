@@ -8,5 +8,8 @@ Route::get('/api/form/find/{id}', ['UserController', 'find']);
 Route::post('/api/form/delete', ['UserController', 'delete']);
 
 Route::get('/api/find/states', ['UserController', 'specialFilter']);
+Route::get('/api/find/states/{id}', ['UserController', 'specialFilter']);
 Route::get('/api/find/cities', ['UserController', 'specialFilter']);
+Route::get('/api/find/cities/{id}', ['UserController', 'specialFilter']);
 Route::get('/api/find/addresses', ['UserController', 'specialFilter']);
+Route::get('/api/find/addresses/{id}', ['UserController', 'specialFilter']);

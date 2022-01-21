@@ -70,6 +70,11 @@ class UserController
 
     public function specialFilter(Request $request)
     {
+        $id = $request->params()['id'] ?? null;
+
+        if (!is_null($id))
+            UserRouteValidation::find($request);
+
         $route = $request->base();
         $field = '';
         $getAll = true;
@@ -77,13 +82,22 @@ class UserController
         switch ($route)
         {
             case '/api/find/states':
+            case "/api/find/states/{$id}":
                 $field = 'state';
+                if ($route == "/api/find/states/{$id}")
+                    $getAll = false;
             break;
             case '/api/find/cities':
+            case "/api/find/cities/{$id}":
                 $field = 'city';
+                if ($route == "/api/find/cities/{$id}")
+                    $getAll = false;
             break;
             case '/api/find/addresses':
+            case "/api/find/addresses/{$id}":
                 $field = 'address';
+                if ($route == "/api/find/addresses/{$id}")
+                    $getAll = false;
             break;
             default:
                 response()->json(['success' => false, 'message' => 'No treatment for this route'], 500);
@@ -102,6 +116,19 @@ class UserController
                     $field => $user->getAttribute($field),
                 ];
             }
+        }
+        else
+        {
+            $user = User::query()->find($id);
+
+            if (is_null($user))
+                response()->json(['success' => false, 'message' => 'User not found'], 404);
+
+            $response = [
+                'id' => $user->getAttribute('id'),
+                'name' => $user->getAttribute('name'),
+                $field => $user->getAttribute($field),
+            ];
         }
 
         response()->json($response);
