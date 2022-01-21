@@ -2,6 +2,8 @@
 
 namespace App\General;
 
+use App\General\Response;
+
 class Router
 {
     protected $collection;
@@ -31,7 +33,7 @@ class Router
         if($route)
             return $this->dispach($route, $request->all());
 
-        return $this->routeNotFound($request->uri());
+        $this->routeNotFound($request->uri());
     }
 
     public function find($request_type, $pattern)
@@ -46,6 +48,6 @@ class Router
 
     protected function routeNotFound($data)
     {
-        throw new \Exception("404 - Not found ({$data})");
+        response()->json(['success' => false, 'message' => "Path '/{$data}' not found"], 404);
     }
 }
