@@ -1,7 +1,9 @@
 <?php
 
-if (!isset($_ENV) || empty($_ENV))
-    dotenv();
+require __DIR__ . '/vendor/vlucas/phpdotenv/src/Dotenv.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 return
 [
