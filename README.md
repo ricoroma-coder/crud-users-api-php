@@ -6,13 +6,13 @@ OBS: Esse projeto foi desenvolvidor para rodar em PHP 7>
 	composer install
 	composer dump-autoload
 
-# Configure o arquivo WRFInfo.ini com os dados de sua base de dados:
-	DRIVER="{DBDRIVER}";
-	HOST="{DBHOST}";
-	NAME="{DBNAME}";
-	USER="{DBUSER}";
-	PASS="{DBPASS}";
-	PORT="{DBPORT}";
+# Configure o arquivo .env com os dados de sua base de dados:
+	DBDRIVER="{DBDRIVER}";
+	DBHOST="{DBHOST}";
+	DBNAME="{DBNAME}";
+	DBUSER="{DBUSER}";
+	DBPASS="{DBPASS}";
+	DBPORT="{DBPORT}";
 
 # Para testar o código, abra o terminal na pasta principal do arquivo e rode os seguintes comandos:
 	vendor\bin\phinx migrate
@@ -68,12 +68,12 @@ PS: This project was built to run in PHP 7>
 	composer dump-autoload
 
 # Configure the file .env to your database info:
-	$DBDRIVER="{DBDRIVER}";
-	$DBHOST="{DBHOST}";
-	$DBNAME="{DBNAME}";
-	$DBUSER="{DBUSER}";
-	$DBPASS="{DBPASS}";
-	$DBPORT="{DBPORT}";
+	DBDRIVER="{DBDRIVER}";
+	DBHOST="{DBHOST}";
+	DBNAME="{DBNAME}";
+	DBUSER="{DBUSER}";
+	DBPASS="{DBPASS}";
+	DBPORT="{DBPORT}";
 
 # To test the project, open the terminal at root directory and run the following codes:
 	vendor\bin\phinx migrate
