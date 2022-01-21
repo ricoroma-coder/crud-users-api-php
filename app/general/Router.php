@@ -31,7 +31,7 @@ class Router
     {
         $route = $this->find($request->method(), $request->uri());
         if($route)
-            return $this->dispach($route, $request->all());
+            return $this->dispach($route, $request);
 
         $this->routeNotFound($request->uri());
     }

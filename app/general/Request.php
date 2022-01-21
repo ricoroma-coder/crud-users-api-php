@@ -33,19 +33,29 @@ class Request
 
     protected function setData()
     {
-        switch($this->method)
+        try
         {
-            case 'post':
-            case 'put':
-            case 'delete':
-                $this->data['method'] = $_POST;
-            break;
-            case 'get':
-                $this->data['method'] = $_GET;
-            break;
+            $this->data = json_decode(file_get_contents('php://input'));
+        }
+        catch (\Exception $e)
+        {
+            response()->json(['success' => false, 'message' => 'Input must be JSON'], 400);
         }
 
-        parse_str(file_get_contents('php://input'), $this->data);
+        //henrique
+//        switch($this->method)
+//        {
+//            case 'post':
+//            case 'put':
+//            case 'delete':
+//                $this->data = $_POST;
+//            break;
+//            case 'get':
+//                $this->data = $_GET;
+//            break;
+//        }
+
+//        parse_str(file_get_contents('php://input'), $this->data);
     }
 
     public function newRequestByUri($base)
