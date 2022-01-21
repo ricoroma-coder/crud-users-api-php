@@ -9,7 +9,17 @@ class UserController
 {
     public function store(Request $request)
     {
-        $obj = new User();
+        if (empty($request->params()))
+            $obj = new User();
+        else
+        {
+            $id = $request->params()['id'];
+            $obj = User::query()->find($id);
+
+            if (is_null($obj))
+                response()->json(['success' => false, 'message' => 'User not found'], 404);
+        }
+
         $obj->setAttributes($request->all());
 
         try

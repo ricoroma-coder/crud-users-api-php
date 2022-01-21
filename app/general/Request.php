@@ -9,6 +9,7 @@ class Request
     protected $method;
     protected $protocol;
     protected $data = [];
+    protected $parameters = [];
 
     public function __construct($base = '')
     {
@@ -67,6 +68,19 @@ class Request
         $this->setData();
     }
 
+    public function setParameters($values)
+    {
+        if (!is_bool($values))
+        {
+            $base = explode('/', $this->base);
+            foreach ($values as $parameter => $value)
+            {
+                if (isset($base[$value]))
+                    $this->parameters[$parameter] = $base[$value];
+            }
+        }
+    }
+
     public function base()
     {
         return $this->base;
@@ -85,5 +99,10 @@ class Request
     public function all()
     {
         return $this->data;
+    }
+
+    public function params()
+    {
+        return $this->parameters;
     }
 }

@@ -98,7 +98,7 @@ class RouteCollection
             if($found !== false)
             {
                 if(substr($element, 0, 1) === '{')
-                    $result[preg_filter('/([\{\}])/', '', $element)] = $key - 1;
+                    $result[preg_filter('/([\{\}])/', '', $element)] = $key;
                 else
                 {
                     $index = 'value_' . !empty($result) ? count($result) + 1 : 1;

@@ -18,6 +18,8 @@ class Dispacher
 
             $reflectionClass = new \ReflectionClass($controller);
 
+            $params->setParameters($callback['values']);
+
             if($reflectionClass->isInstantiable() && $reflectionClass->hasMethod($method))
                 return call_user_func_array(array(new $controller, $method), array($params));
             else
