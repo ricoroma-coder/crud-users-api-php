@@ -4,11 +4,14 @@ namespace App\Controllers;
 
 use App\General\Request;
 use App\Models\User;
+use App\Validation\UserRouteValidation;
 
 class UserController
 {
     public function store(Request $request)
     {
+        UserRouteValidation::store($request);
+
         if (empty($request->params()))
             $obj = new User();
         else

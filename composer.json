@@ -11,8 +11,9 @@
   "require": {
     "slim/slim": "3.*",
     "robmorgan/phinx": "^0.12.3",
-    "illuminate/database": "^6.0",
-    "vlucas/phpdotenv": "^5.4"
+    "illuminate/database": "^8.80",
+    "vlucas/phpdotenv": "^5.4",
+    "illuminate/validation": "^8.80"
   },
   "autoload" : {
     "psr-4": {
