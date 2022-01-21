@@ -53,4 +53,27 @@ class UserRouteValidation
         )
             response()->json(['success' => false, 'message' => 'Attribute id is invalid'], 400);
     }
+
+    public static function delete(Request $request)
+    {
+        $message = '';
+        $status = 400;
+        $id = $request->all()->id ?? null;
+
+        if (!isset($id))
+            $message = 'Attribute id is required';
+        else if (empty($id) || $id <= 0 || !is_numeric($id))
+            $message = 'Attribute id is not valid';
+
+        $obj = User::query()->find($id);
+
+        if (is_null($obj))
+        {
+            $message = 'User not found';
+            $status = 404;
+        }
+
+        if (!empty($message))
+            response()->json(['success' => false, 'message' => $message], $status);
+    }
 }

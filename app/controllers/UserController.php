@@ -49,4 +49,22 @@ class UserController
 
         response()->json($obj->getAttributes());
     }
+
+    public function delete(Request $request)
+    {
+        UserRouteValidation::delete($request);
+
+        $obj = User::query()->find($request->all()->id);
+
+        try
+        {
+            $obj->delete();
+        }
+        catch (\Exception $e)
+        {
+            response()->json(['success' => false, 'message' => 'Internal error (dberror)'], 500);
+        }
+
+        response()->json(['success' => true, 'message' => 'User deleted']);
+    }
 }
